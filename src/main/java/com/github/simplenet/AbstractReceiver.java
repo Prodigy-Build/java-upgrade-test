@@ -66,9 +66,9 @@ abstract class AbstractReceiver<T> {
      * @param <U> A {@link AbstractReceiver} or one of its children.
      */
     <U extends AbstractReceiver<T>> AbstractReceiver(U receiver) {
-        this.connectListeners = receiver.connectListeners;
-        this.preDisconnectListeners = receiver.preDisconnectListeners;
-        this.postDisconnectListeners = receiver.postDisconnectListeners;
+        this.connectListeners = new CopyOnWriteArrayList<>(receiver.connectListeners);
+        this.preDisconnectListeners = new CopyOnWriteArrayList<>(receiver.preDisconnectListeners);
+        this.postDisconnectListeners = new CopyOnWriteArrayList<>(receiver.postDisconnectListeners);
     }
 
     /**

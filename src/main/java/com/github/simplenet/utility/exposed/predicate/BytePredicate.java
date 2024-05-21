@@ -99,4 +99,18 @@ public interface BytePredicate {
         Objects.requireNonNull(other);
         return value -> test(value) || other.test(value);
     }
+    
+    /**
+     * Returns a predicate that represents the logical negation of the given
+     * predicate.
+     *
+     * @param predicate the predicate to negate
+     * @return a predicate that represents the logical negation of the given
+     * predicate
+     * @throws NullPointerException if predicate is null
+     */
+    static BytePredicate not(BytePredicate predicate) {
+        Objects.requireNonNull(predicate);
+        return predicate.negate();
+    }
 }
