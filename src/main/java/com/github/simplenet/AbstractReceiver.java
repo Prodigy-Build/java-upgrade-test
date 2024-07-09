@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -82,3 +83,4 @@ abstract class AbstractReceiver<T> {
         connectListeners.add(listener);
     }
 }
+```

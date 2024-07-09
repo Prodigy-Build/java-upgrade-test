@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Jacob Glickman
+ * Copyright (c) 2021 Jacob Glickman
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
          * A {@code static} instance of this class to be reused.
          */
         static final Listener INSTANCE = new Listener();
-        
+
         @Override
         public void completed(Integer result, Pair<Client, ByteBuffer> pair) {
             // A result of -1 normally means that the end-of-stream has been reached. In that case, close the
@@ -194,12 +194,12 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
         @Override
         public void completed(Integer result, ByteBuffer buffer) {
             Client client = Client.this;
-    
+
             DIRECT_BUFFER_POOL.give(buffer);
 
             synchronized (client.outgoingPackets) {
                 ByteBuffer payload = client.packetsToFlush.poll();
-    
+
                 if (payload == null) {
                     client.writeInProgress.set(false);
                     return;
@@ -236,22 +236,22 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
      * A {@link MutableBoolean} that keeps track of whether or not the executing code is inside a callback.
      */
     private final MutableBoolean inCallback;
-    
+
     /**
      * A thread-safe method of keeping track if this {@link Client} is in the process of shutting down.
      */
     private final AtomicBoolean closing;
-    
+
     /**
      * A thread-safe method of keeping track if this {@link Client} is currently waiting for bytes to arrive.
      */
     private final AtomicBoolean readInProgress;
-    
+
     /**
      * A thread-safe method of keeping track whether this {@link Client} is currently writing data to the network.
      */
     private final AtomicBoolean writeInProgress;
-    
+
     /**
      * A {@link Queue} to manage outgoing {@link Packet}s.
      */
@@ -309,12 +309,12 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
      * The backing {@link AsynchronousChannelGroup} of this {@link Client}.
      */
     private AsynchronousChannelGroup group;
-    
+
     /**
      * The backing {@link Channel} of a {@link Client}.
      */
     private AsynchronousSocketChannel channel;
-    
+
     /**
      * Instantiates a new {@link Client}.
      */
@@ -336,12 +336,12 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
         packetsToFlush = new ArrayDeque<>();
         queue = new ArrayDeque<>();
         stack = new ArrayDeque<>();
-        
+
         if (channel != null) {
             this.channel = channel;
         }
     }
-    
+
     /**
      * Instantiates a new {@link Client} (whose fields directly refer to the fields of the specified {@link Client})
      * from an existing {@link Client}, essentially acting as a shallow copy-constructor.
@@ -382,7 +382,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
      */
     public final void connect(String address, int port) {
         connect(address, port, 30L, TimeUnit.SECONDS, () ->
-            LOGGER.warn("Couldn't connect to the server! Maybe it's offline?"));
+                LOGGER.warn("Couldn't connect to the server! Maybe it's offline?"));
     }
 
     /**
@@ -408,7 +408,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
             Thread thread = new Thread(runnable);
             thread.setDaemon(false);
             thread.setName(thread.getName().replace("Thread", "SimpleNet"));
-            
+
             return thread;
         }, (runnable, threadPoolExecutor) -> {});
 
@@ -434,7 +434,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
             close(false);
             return;
         }
-        
+
         executor.execute(() -> connectListeners.forEach(Runnable::run));
     }
 
@@ -514,11 +514,11 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
     public final void postDisconnect(Runnable listener) {
         postDisconnectListeners.add(listener);
     }
-    
+
     @Override
     public void readUntil(int n, Predicate<ByteBuffer> predicate, ByteOrder order) {
         boolean shouldDecrypt = decryptionCipher != null;
-    
+
         if (shouldDecrypt && !decryptionNoPadding) {
             int blockSize = decryptionCipher.getBlockSize();
             n = Utility.roundUpToNextMultiple(n, blockSize == 0 ? decryptionCipher.getOutputSize(n) : blockSize);
@@ -602,7 +602,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
     public final AsynchronousSocketChannel getChannel() {
         return channel;
     }
-    
+
     /**
      * Gets the encryption {@link Cipher} used by this {@link Client}.
      *
@@ -611,7 +611,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
     public final Cipher getEncryptionCipher() {
         return encryptionCipher;
     }
-    
+
     /**
      * Gets the decryption {@link Cipher} used by this {@link Client}.
      *
@@ -620,7 +620,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
     public final Cipher getDecryptionCipher() {
         return decryptionCipher;
     }
-    
+
     /**
      * Sets the encryption {@link Cipher} used by this {@link Client}.
      * <br><br>
@@ -631,7 +631,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
     public final void setEncryptionCipher(Cipher encryptionCipher) {
         setEncryption(encryptionCipher, CryptographicFunction.DO_FINAL);
     }
-    
+
     /**
      * Sets the encryption {@link Cipher} and {@link CryptographicFunction} used by this {@link Client}.
      *
@@ -664,7 +664,7 @@ public class Client extends AbstractReceiver<Runnable> implements Channeled<Asyn
     public final void setDecryptionCipher(Cipher decryptionCipher) {
         setDecryption(decryptionCipher, CryptographicFunction.DO_FINAL);
     }
-    
+
     /**
      * Sets the decryption {@link Cipher} and {@link CryptographicFunction} used by this {@link Client}.
      *
