@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -37,7 +38,7 @@ import java.util.function.Consumer;
  * @version January 21, 2019
  */
 public interface ShortReader extends DataReader {
-    
+
     /**
      * Calls {@link #readShort(ShortConsumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -47,7 +48,7 @@ public interface ShortReader extends DataReader {
     default void readShort(ShortConsumer consumer) {
         readShort(consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Requests a single {@code short}, with the specified {@link ByteOrder}, and accepts a {@link ShortConsumer} with
      * the {@code short} when it is received.
@@ -58,7 +59,7 @@ public interface ShortReader extends DataReader {
     default void readShort(ShortConsumer consumer, ByteOrder order) {
         read(Short.BYTES, buffer -> consumer.accept(buffer.getShort()), order);
     }
-    
+
     /**
      * Calls {@link #readShort(ShortConsumer)}; however, once finished, {@link #readShort(ShortConsumer)} is
      * called once again with the same consumer; this method loops until the specified {@link ShortPredicate}
@@ -69,7 +70,7 @@ public interface ShortReader extends DataReader {
     default void readShortUntil(ShortPredicate predicate) {
         readShortUntil(predicate, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readShort(ShortConsumer, ByteOrder)}; however, once finished,
      * {@link #readShort(ShortConsumer, ByteOrder)} is called once again with the same consumer; this method loops
@@ -82,7 +83,7 @@ public interface ShortReader extends DataReader {
     default void readShortUntil(ShortPredicate predicate, ByteOrder order) {
         readUntil(Short.BYTES, buffer -> predicate.test(buffer.getShort()), order);
     }
-    
+
     /**
      * Calls {@link #readShortAlways(ShortConsumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -92,7 +93,7 @@ public interface ShortReader extends DataReader {
     default void readShortAlways(ShortConsumer consumer) {
         readShortAlways(consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readShort(ShortConsumer, ByteOrder)}; however, once finished,
      * {@link #readShort(ShortConsumer, ByteOrder)} is called once again with the same consumer; this method loops
@@ -104,7 +105,7 @@ public interface ShortReader extends DataReader {
     default void readShortAlways(ShortConsumer consumer, ByteOrder order) {
         readAlways(Short.BYTES, buffer -> consumer.accept(buffer.getShort()), order);
     }
-    
+
     /**
      * Calls {@link #readShorts(int, Consumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -115,7 +116,7 @@ public interface ShortReader extends DataReader {
     default void readShorts(int n, Consumer<short[]> consumer) {
         readShorts(n, consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Requests a {@code short[]} of length {@code n} in the specified {@link ByteOrder} and accepts a {@link Consumer}
      * when all of the {@code short}s are received.
@@ -127,7 +128,7 @@ public interface ShortReader extends DataReader {
     default void readShorts(int n, Consumer<short[]> consumer, ByteOrder order) {
         read(Short.BYTES * n, buffer -> processShorts(buffer, n, consumer), order);
     }
-    
+
     /**
      * Calls {@link #readShortsAlways(int, Consumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -137,7 +138,7 @@ public interface ShortReader extends DataReader {
     default void readShortsAlways(int n, Consumer<short[]> consumer) {
         readShortsAlways(n, consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readShorts(int, Consumer, ByteOrder)}; however, once finished,
      * {@link #readShorts(int, Consumer, ByteOrder)} is called once again with the same parameter; this loops
@@ -150,7 +151,7 @@ public interface ShortReader extends DataReader {
     default void readShortsAlways(int n, Consumer<short[]> consumer, ByteOrder order) {
         readAlways(Short.BYTES * n, buffer -> processShorts(buffer, n, consumer), order);
     }
-    
+
     /**
      * A helper method to eliminate duplicate code.
      *
@@ -158,9 +159,10 @@ public interface ShortReader extends DataReader {
      * @param n          The amount of {@code short}s requested.
      * @param consumer   Holds the operations that should be performed once the {@code n} {@code short}s are received.
      */
-    private void processShorts(ByteBuffer buffer, int n, Consumer<short[]> consumer) {
+    private static void processShorts(ByteBuffer buffer, int n, Consumer<short[]> consumer) {
         var s = new short[n];
         buffer.asShortBuffer().get(s);
         consumer.accept(s);
     }
 }
+```

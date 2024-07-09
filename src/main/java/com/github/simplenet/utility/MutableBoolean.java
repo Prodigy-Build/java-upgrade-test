@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -91,3 +92,4 @@ public final class MutableBoolean {
         return "MutableBoolean[value = " + value + "]";
     }
 }
+```

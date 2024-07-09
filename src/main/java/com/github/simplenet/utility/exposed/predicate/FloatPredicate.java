@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -100,3 +101,4 @@ public interface FloatPredicate {
         return value -> test(value) || other.test(value);
     }
 }
+```

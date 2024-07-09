@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -66,7 +67,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
      * The backing {@link AsynchronousChannelGroup} of this {@link Server}.
      */
     private AsynchronousChannelGroup group;
-    
+
     /**
      * The backing {@link Channel} of this {@link Server}.
      */
@@ -158,7 +159,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
             throw new IllegalStateException("Unable to bind the specified address and port!", e);
         }
     }
-    
+
     /**
      * Closes this {@link Server} by first invoking {@link Client#close()} on every connected {@link Client}, and
      * then closes the backing {@link AsynchronousChannelGroup}.
@@ -169,9 +170,9 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
             client.close();
             return true;
         });
-    
+
         Channeled.super.close();
-        
+
         try {
             group.shutdownNow();
         } catch (IOException e) {
@@ -188,7 +189,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
     public AsynchronousServerSocketChannel getChannel() {
         return channel;
     }
-    
+
     /**
      * Gets the number of {@link Client}s connected to this {@link Server}.
      *
@@ -197,7 +198,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
     public int getNumConnectedClients() {
         return connectedClients.size();
     }
-    
+
     /**
      * A helper method that eliminates code duplication in the {@link #queueToAllExcept(Packet, Client[])} and
      * {@link #queueAndFlushToAllExcept(Packet, Client[])} methods.
@@ -210,7 +211,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
         Collections.addAll(toExclude, clients);
         connectedClients.stream().filter(client -> !toExclude.contains(client)).forEach(consumer);
     }
-    
+
     /**
      * A helper method that eliminates code duplication in the {@link #queueToAllExcept(Packet, Collection)} and
      * {@link #queueAndFlushToAllExcept(Packet, Collection)} methods.
@@ -223,7 +224,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
         toExclude.addAll(clients);
         connectedClients.stream().filter(client -> !toExclude.contains(client)).forEach(consumer);
     }
-    
+
     /**
      * Queues a {@link Packet} to all connected {@link Client}s except the one(s) specified.
      * <br><br>
@@ -235,7 +236,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
     public final void queueToAllExcept(Packet packet, Client... clients) {
         queueHelper(packet::queue, clients);
     }
-    
+
     /**
      * Queues a {@link Packet} to all connected {@link Client}s except the one(s) specified.
      * <br><br>
@@ -247,7 +248,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
     public final void queueToAllExcept(Packet packet, Collection<? extends Client> clients) {
         queueHelper(packet::queue, clients);
     }
-    
+
     /**
      * Flushes all queued {@link Packet}s for all {@link Client}s except the one(s) specified.
      *
@@ -256,7 +257,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
     public final void flushToAllExcept(Client... clients) {
         queueHelper(Client::flush, clients);
     }
-    
+
     /**
      * Flushes all queued {@link Packet}s for all {@link Client}s except the one(s) specified.
      *
@@ -265,7 +266,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
     public final void flushToAllExcept(Collection<? extends Client> clients) {
         queueHelper(Client::flush, clients);
     }
-    
+
     /**
      * Queues a {@link Packet} to a one or more {@link Client}s and calls {@link Client#flush()}, flushing all
      * previously-queued packets as well.
@@ -275,7 +276,7 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
     public final void queueAndFlushToAllExcept(Packet packet, Client... clients) {
         queueHelper(packet::queueAndFlush, clients);
     }
-    
+
     /**
      * Queues a {@link Packet} to a one or more {@link Client}s and calls {@link Client#flush()}, flushing all
      * previously-queued packets as well.
@@ -286,3 +287,4 @@ public class Server extends AbstractReceiver<Consumer<Client>> implements Channe
         queueHelper(packet::queueAndFlush, clients);
     }
 }
+```

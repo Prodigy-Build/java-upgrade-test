@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -30,14 +31,14 @@ package com.github.simplenet.utility;
  * @version January 27, 2019
  */
 public final class Utility {
-    
+
     /**
      * A {@code private} constructor that throws an {@link UnsupportedOperationException} when invoked.
      */
     private Utility() {
         throw new UnsupportedOperationException("This class cannot be instantiated!");
     }
-    
+
     /**
      * A method that rounds the specified value up to the next multiple of the specified multiple.
      *
@@ -49,3 +50,4 @@ public final class Utility {
         return multiple == 0 ? num : num + multiple - (num % multiple);
     }
 }
+```

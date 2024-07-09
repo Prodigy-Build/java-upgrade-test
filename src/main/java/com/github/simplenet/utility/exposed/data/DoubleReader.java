@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -36,7 +37,7 @@ import java.util.function.DoublePredicate;
  * @version January 21, 2019
  */
 public interface DoubleReader extends DataReader {
-    
+
     /**
      * Calls {@link #readDouble(DoubleConsumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -46,7 +47,7 @@ public interface DoubleReader extends DataReader {
     default void readDouble(DoubleConsumer consumer) {
         readDouble(consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Requests a single {@code double}, with the specified {@link ByteOrder}, and accepts a {@link DoubleConsumer} with
      * the {@code double} when it is received.
@@ -57,7 +58,7 @@ public interface DoubleReader extends DataReader {
     default void readDouble(DoubleConsumer consumer, ByteOrder order) {
         read(Double.BYTES, buffer -> consumer.accept(buffer.getDouble()), order);
     }
-    
+
     /**
      * Calls {@link #readDouble(DoubleConsumer)}; however, once finished, {@link #readDouble(DoubleConsumer)} is
      * called once again with the same consumer; this method loops until the specified {@link DoublePredicate}
@@ -68,7 +69,7 @@ public interface DoubleReader extends DataReader {
     default void readDoubleUntil(DoublePredicate predicate) {
         readDoubleUntil(predicate, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readDouble(DoubleConsumer, ByteOrder)}; however, once finished,
      * {@link #readDouble(DoubleConsumer, ByteOrder)} is called once again with the same consumer; this method loops
@@ -81,7 +82,7 @@ public interface DoubleReader extends DataReader {
     default void readDoubleUntil(DoublePredicate predicate, ByteOrder order) {
         readUntil(Double.BYTES, buffer -> predicate.test(buffer.getDouble()), order);
     }
-    
+
     /**
      * Calls {@link #readDoubleAlways(DoubleConsumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -91,7 +92,7 @@ public interface DoubleReader extends DataReader {
     default void readDoubleAlways(DoubleConsumer consumer) {
         readDoubleAlways(consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readDouble(DoubleConsumer, ByteOrder)}; however, once finished,
      * {@link #readDouble(DoubleConsumer, ByteOrder)} is called once again with the same consumer; this method loops
@@ -103,7 +104,7 @@ public interface DoubleReader extends DataReader {
     default void readDoubleAlways(DoubleConsumer consumer, ByteOrder order) {
         readAlways(Double.BYTES, buffer -> consumer.accept(buffer.getDouble()), order);
     }
-    
+
     /**
      * Calls {@link #readDoubles(int, Consumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -114,7 +115,7 @@ public interface DoubleReader extends DataReader {
     default void readDoubles(int n, Consumer<double[]> consumer) {
         readDoubles(n, consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Requests a {@code double[]} of length {@code n} in the specified {@link ByteOrder} and accepts a {@link Consumer}
      * when all of the {@code double}s are received.
@@ -126,7 +127,7 @@ public interface DoubleReader extends DataReader {
     default void readDoubles(int n, Consumer<double[]> consumer, ByteOrder order) {
         read(Double.BYTES * n, buffer -> processDoubles(buffer, n, consumer), order);
     }
-    
+
     /**
      * Calls {@link #readDoublesAlways(int, Consumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -136,7 +137,7 @@ public interface DoubleReader extends DataReader {
     default void readDoublesAlways(int n, Consumer<double[]> consumer) {
         readDoublesAlways(n, consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readDoubles(int, Consumer, ByteOrder)}; however, once finished,
      * {@link #readDoubles(int, Consumer, ByteOrder)} is called once again with the same parameter; this loops
@@ -149,7 +150,7 @@ public interface DoubleReader extends DataReader {
     default void readDoublesAlways(int n, Consumer<double[]> consumer, ByteOrder order) {
         readAlways(Double.BYTES * n, buffer -> processDoubles(buffer, n, consumer), order);
     }
-    
+
     /**
      * A helper method to eliminate duplicate code.
      *
@@ -157,9 +158,10 @@ public interface DoubleReader extends DataReader {
      * @param n          The amount of {@code double}s requested.
      * @param consumer   Holds the operations that should be performed once the {@code n} {@code double}s are received.
      */
-    private void processDoubles(ByteBuffer buffer, int n, Consumer<double[]> consumer) {
+    private static void processDoubles(ByteBuffer buffer, int n, Consumer<double[]> consumer) {
         double[] d = new double[n];
         buffer.asDoubleBuffer().get(d);
         consumer.accept(d);
     }
 }
+```

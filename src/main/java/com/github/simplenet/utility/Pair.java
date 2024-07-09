@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -28,7 +29,8 @@ import java.util.Objects;
 /**
  * A class that acts as a {@link K}-{@link V} tuple.
  *
- * @author Jacob G.
+ * @param <K> the type of the key.
+ * @param <V> the type of the value.
  * @version October 20, 2019
  */
 public final class Pair<K, V> {
@@ -93,3 +95,4 @@ public final class Pair<K, V> {
         return "Pair[key: " + key + ", value: " + value + "]";
     }
 }
+```

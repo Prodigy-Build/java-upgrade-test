@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -24,16 +25,16 @@
 package com.github.simplenet.utility.exposed.predicate;
 
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.function.BooleanPredicate;
 
 /**
  * Represents a predicate (boolean-valued function) of one {@code boolean}-valued
  * argument. This is the {@code boolean}-consuming primitive type specialization of
- * {@link Predicate}.
+ * {@link java.util.function.Predicate}.
  *
  * <p>This is a functional interface whose functional method is {@link #test(boolean)}.
  *
- * @see Predicate
+ * @see java.util.function.Predicate
  */
 @FunctionalInterface
 public interface BooleanPredicate {
@@ -100,3 +101,4 @@ public interface BooleanPredicate {
         return value -> test(value) || other.test(value);
     }
 }
+```

@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -46,12 +47,11 @@ interface Channeled<T extends AsynchronousChannel> {
     /**
      * Closes the backing {@link Channel} of this entity, which results in the firing of any disconnect-listeners
      * that exist.
+     *
+     * @throws IOException if an I/O error occurs while closing the channel
      */
-    default void close() {
-        try {
-            getChannel().close();
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to close the backing AsynchronousChannel:", e);
-        }
+    default void close() throws IOException {
+        getChannel().close();
     }
 }
+```

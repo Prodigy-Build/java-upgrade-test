@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -93,3 +94,4 @@ public final class IntPair<V> {
         return "IntPair[key: " + key + ", value: " + value + "]";
     }
 }
+```

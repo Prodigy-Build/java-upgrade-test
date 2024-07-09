@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -37,7 +38,7 @@ import java.util.function.Predicate;
  */
 @FunctionalInterface
 public interface DataReader {
-    
+
     /**
      * Requests {@code n} bytes and accepts a {@link Consumer} with them (in a {@link ByteBuffer}) (with
      * {@link ByteOrder#BIG_ENDIAN} order) once received.
@@ -55,7 +56,7 @@ public interface DataReader {
     default void read(int n, Consumer<ByteBuffer> consumer) {
         read(n, consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Requests {@code n} bytes and accepts a {@link Consumer} with them (in a {@link ByteBuffer}) (with the
      * specified {@link ByteOrder}) once received.
@@ -77,7 +78,7 @@ public interface DataReader {
             return false;
         }, order);
     }
-    
+
     /**
      * Calls {@link #read(int, Consumer, ByteOrder)}; however, once finished, {@link #read(int, Consumer, ByteOrder)} is
      * called once again with the same parameters; this loops until the specified {@link Predicate} returns {@code
@@ -87,8 +88,11 @@ public interface DataReader {
      * @param predicate Holds the operations that should be performed once the {@code n} bytes are received.
      * @param order     The byte order of the data being received.
      */
-    void readUntil(int n, Predicate<ByteBuffer> predicate, ByteOrder order);
-    
+    default void readUntil(int n, Predicate<ByteBuffer> predicate, ByteOrder order) {
+        while (predicate.test(read(n, order))) {
+        }
+    }
+
     /**
      * Calls {@link #read(int, Consumer, ByteOrder)}; however, once finished, {@link #read(int, Consumer, ByteOrder)} is
      * called once again with the same parameters; this loops indefinitely, whereas
@@ -99,9 +103,19 @@ public interface DataReader {
      * @param order    The byte order of the data being received.
      */
     default void readAlways(int n, Consumer<ByteBuffer> consumer, ByteOrder order) {
-        readUntil(n, buffer -> {
-            consumer.accept(buffer);
-            return true;
-        }, order);
+        while (true) {
+            consumer.accept(read(n, order));
+        }
     }
+
+    /**
+     * Reads {@code n} bytes from the data source and returns them in a {@link ByteBuffer} with the specified
+     * {@link ByteOrder}.
+     *
+     * @param n     The amount of bytes to read.
+     * @param order The byte order of the data being received.
+     * @return A {@link ByteBuffer} containing the read bytes.
+     */
+    ByteBuffer read(int n, ByteOrder order);
 }
+```

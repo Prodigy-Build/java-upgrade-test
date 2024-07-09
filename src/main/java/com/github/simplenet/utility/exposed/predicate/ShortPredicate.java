@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -24,16 +25,16 @@
 package com.github.simplenet.utility.exposed.predicate;
 
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.function.IntPredicate;
 
 /**
  * Represents a predicate (boolean-valued function) of one {@code short}-valued
  * argument. This is the {@code short}-consuming primitive type specialization of
- * {@link Predicate}.
+ * {@link IntPredicate}.
  *
  * <p>This is a functional interface whose functional method is {@link #test(short)}.
  *
- * @see Predicate
+ * @see IntPredicate
  */
 @FunctionalInterface
 public interface ShortPredicate {
@@ -100,3 +101,4 @@ public interface ShortPredicate {
         return value -> test(value) || other.test(value);
     }
 }
+```

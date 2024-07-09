@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -37,7 +38,7 @@ import java.util.function.Consumer;
  * @version January 21, 2019
  */
 public interface CharReader extends DataReader {
-    
+
     /**
      * Calls {@link #readChar(CharConsumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -47,7 +48,7 @@ public interface CharReader extends DataReader {
     default void readChar(CharConsumer consumer) {
         readChar(consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Requests a single {@code char}, with the specified {@link ByteOrder}, and accepts a {@link CharConsumer} with
      * the {@code char} when it is received.
@@ -58,7 +59,7 @@ public interface CharReader extends DataReader {
     default void readChar(CharConsumer consumer, ByteOrder order) {
         read(Character.BYTES, buffer -> consumer.accept(buffer.getChar()), order);
     }
-    
+
     /**
      * Calls {@link #readChar(CharConsumer)}; however, once finished, {@link #readChar(CharConsumer)} is
      * called once again with the same consumer; this method loops until the specified {@link CharPredicate}
@@ -69,7 +70,7 @@ public interface CharReader extends DataReader {
     default void readCharUntil(CharPredicate predicate) {
         readCharUntil(predicate, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readChar(CharConsumer, ByteOrder)}; however, once finished,
      * {@link #readChar(CharConsumer, ByteOrder)} is called once again with the same consumer; this method loops
@@ -82,7 +83,7 @@ public interface CharReader extends DataReader {
     default void readCharUntil(CharPredicate predicate, ByteOrder order) {
         readUntil(Character.BYTES, buffer -> predicate.test(buffer.getChar()), order);
     }
-    
+
     /**
      * Calls {@link #readCharAlways(CharConsumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -92,7 +93,7 @@ public interface CharReader extends DataReader {
     default void readCharAlways(CharConsumer consumer) {
         readCharAlways(consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readChar(CharConsumer, ByteOrder)}; however, once finished,
      * {@link #readChar(CharConsumer, ByteOrder)} is called once again with the same consumer; this method loops
@@ -104,7 +105,7 @@ public interface CharReader extends DataReader {
     default void readCharAlways(CharConsumer consumer, ByteOrder order) {
         readAlways(Character.BYTES, buffer -> consumer.accept(buffer.getChar()), order);
     }
-    
+
     /**
      * Calls {@link #readChars(int, Consumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -115,7 +116,7 @@ public interface CharReader extends DataReader {
     default void readChars(int n, Consumer<char[]> consumer) {
         readChars(n, consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Requests a {@code char[]} of length {@code n} in the specified {@link ByteOrder} and accepts a {@link Consumer}
      * when all of the {@code char}s are received.
@@ -127,7 +128,7 @@ public interface CharReader extends DataReader {
     default void readChars(int n, Consumer<char[]> consumer, ByteOrder order) {
         read(Character.BYTES * n, buffer -> processChars(buffer, n, consumer), order);
     }
-    
+
     /**
      * Calls {@link #readCharsAlways(int, Consumer, ByteOrder)} with {@link ByteOrder#BIG_ENDIAN} as the {@code order}.
      *
@@ -137,7 +138,7 @@ public interface CharReader extends DataReader {
     default void readCharsAlways(int n, Consumer<char[]> consumer) {
         readCharsAlways(n, consumer, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Calls {@link #readChars(int, Consumer, ByteOrder)}; however, once finished,
      * {@link #readChars(int, Consumer, ByteOrder)} is called once again with the same parameter; this loops
@@ -150,7 +151,7 @@ public interface CharReader extends DataReader {
     default void readCharsAlways(int n, Consumer<char[]> consumer, ByteOrder order) {
         readAlways(Character.BYTES * n, buffer -> processChars(buffer, n, consumer), order);
     }
-    
+
     /**
      * A helper method to eliminate duplicate code.
      *
@@ -158,9 +159,10 @@ public interface CharReader extends DataReader {
      * @param n          The amount of {@code char}s requested.
      * @param consumer   Holds the operations that should be performed once the {@code n} {@code char}s are received.
      */
-    private void processChars(ByteBuffer buffer, int n, Consumer<char[]> consumer) {
+    private static void processChars(ByteBuffer buffer, int n, Consumer<char[]> consumer) {
         var c = new char[n];
         buffer.asCharBuffer().get(c);
         consumer.accept(c);
     }
 }
+```

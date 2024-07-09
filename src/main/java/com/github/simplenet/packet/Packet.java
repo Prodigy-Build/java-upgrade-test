@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -60,7 +61,7 @@ public final class Packet {
      * A {@link Deque} that is used when prepending data to this packet so that the data is written in order.
      */
     private final Deque<Consumer<ByteBuffer>> stack;
-    
+
     /**
      * A {@link Deque} that lazily writes data to the backing {@link ByteBuffer}.
      */
@@ -82,7 +83,7 @@ public final class Packet {
     public static Packet builder() {
         return new Packet();
     }
-    
+
     /**
      * A helper method that eliminates duplicate code and enqueues a {@link Consumer} to the backing {@link Deque}
      * (either at the front or back depending on the value of {@code prepend}).
@@ -99,7 +100,7 @@ public final class Packet {
 
         return this;
     }
-    
+
     /**
      * Writes a single {@code boolean} to this {@link Packet}'s payload.
      * <br><br>
@@ -113,7 +114,7 @@ public final class Packet {
         size += Byte.BYTES;
         return enqueue(buffer -> buffer.put(b ? (byte) 1 : 0));
     }
-    
+
     /**
      * Writes a single {@code byte} to this {@link Packet}'s payload.
      *
@@ -146,7 +147,7 @@ public final class Packet {
     public Packet putChar(char c) {
         return putChar(c, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@code char} with the specified {@link ByteOrder} to this {@link Packet}'s payload.
      *
@@ -158,7 +159,7 @@ public final class Packet {
         size += Character.BYTES;
         return enqueue(buffer -> buffer.putChar(order == ByteOrder.LITTLE_ENDIAN ? Character.reverseBytes(c) : c));
     }
-    
+
     /**
      * Writes a single {@code double} with {@link ByteOrder#BIG_ENDIAN} order to this {@link Packet}'s payload.
      *
@@ -169,7 +170,7 @@ public final class Packet {
     public Packet putDouble(double d) {
         return putDouble(d, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@code double} with the specified {@link ByteOrder} to this {@link Packet}'s payload.
      *
@@ -181,7 +182,7 @@ public final class Packet {
     public Packet putDouble(double d, ByteOrder order) {
         return putLong(Double.doubleToRawLongBits(d), order);
     }
-    
+
     /**
      * Writes a single {@code float} with {@link ByteOrder#BIG_ENDIAN} order to this {@link Packet}'s payload.
      *
@@ -192,7 +193,7 @@ public final class Packet {
     public Packet putFloat(float f) {
         return putFloat(f, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@code float} with the specified {@link ByteOrder} to this {@link Packet}'s payload.
      *
@@ -204,7 +205,7 @@ public final class Packet {
     public Packet putFloat(float f, ByteOrder order) {
         return putInt(Float.floatToRawIntBits(f), order);
     }
-    
+
     /**
      * Writes a single {@code int} with {@link ByteOrder#BIG_ENDIAN} order to this {@link Packet}'s payload.
      *
@@ -215,7 +216,7 @@ public final class Packet {
     public Packet putInt(int i) {
         return putInt(i, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@code int} with the specified {@link ByteOrder} to this {@link Packet}'s payload.
      *
@@ -227,7 +228,7 @@ public final class Packet {
         size += Integer.BYTES;
         return enqueue(buffer -> buffer.putInt(order == ByteOrder.LITTLE_ENDIAN ? Integer.reverseBytes(i) : i));
     }
-    
+
     /**
      * Writes a single {@code long} with {@link ByteOrder#BIG_ENDIAN} order to this {@link Packet}'s payload.
      *
@@ -238,7 +239,7 @@ public final class Packet {
     public Packet putLong(long l) {
         return putLong(l, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@code long} with the specified {@link ByteOrder} to this {@link Packet}'s payload.
      *
@@ -250,7 +251,7 @@ public final class Packet {
         size += Long.BYTES;
         return enqueue(buffer -> buffer.putLong(order == ByteOrder.LITTLE_ENDIAN ? Long.reverseBytes(l) : l));
     }
-    
+
     /**
      * Writes a single {@code short} with {@link ByteOrder#BIG_ENDIAN} order to this {@link Packet}'s payload.
      *
@@ -261,7 +262,7 @@ public final class Packet {
     public Packet putShort(int s) {
         return putShort(s, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@code short} with the specified {@link ByteOrder} to this {@link Packet}'s payload.
      *
@@ -288,7 +289,7 @@ public final class Packet {
     public Packet putString(String s) {
         return putString(s, StandardCharsets.UTF_8, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@link String} encoded with the specified {@link Charset} and {@link ByteOrder#BIG_ENDIAN}
      * order to this {@link Packet}'s payload.
@@ -305,7 +306,7 @@ public final class Packet {
     public Packet putString(String s, Charset charset) {
         return putString(s, charset, ByteOrder.BIG_ENDIAN);
     }
-    
+
     /**
      * Writes a single {@link String} encoded with the specified {@link Charset} and {@link ByteOrder} to this
      * {@link Packet}'s payload.
@@ -338,15 +339,15 @@ public final class Packet {
     public Packet prepend(Consumer<Packet> consumer) {
         prepend = true;
         consumer.accept(this);
-        
+
         while (!stack.isEmpty()) {
             queue.offerFirst(stack.pop());
         }
-        
+
         prepend = false;
         return this;
     }
-    
+
     /**
      * Queues this {@link Packet packet} to a single {@link Client client}.
      * <br><br>
@@ -356,12 +357,12 @@ public final class Packet {
      */
     public final void queue(Client client) {
         Queue<Packet> clientQueue;
-        
+
         synchronized ((clientQueue = client.getOutgoingPackets())) {
             clientQueue.offer(this);
         }
     }
-    
+
     /**
      * Queues this {@link Packet packet} to a variable amount of {@link Client clients}.
      * <br><br>
@@ -387,7 +388,7 @@ public final class Packet {
     public final void queue(Collection<? extends Client> clients) {
         clients.forEach(this::queue);
     }
-    
+
     /**
      * Queues this {@link Packet packet} to a single {@link Client client} and calls {@link Client#flush()}, flushing
      * all previously-queued packets as well.
@@ -420,7 +421,7 @@ public final class Packet {
     public final void queueAndFlush(Collection<? extends Client> clients) {
         clients.forEach(this::queueAndFlush);
     }
-    
+
     /**
      * Gets the size of this {@link Packet packet}'s payload in bytes.
      * <br><br>
@@ -433,7 +434,7 @@ public final class Packet {
     public int getSize() {
         return getSize(null);
     }
-    
+
     /**
      * Gets the size of this {@link Packet packet}'s payload in bytes, while taking the specified {@link Client
      * client}'s encryption into account, as a {@link Cipher cipher}'s padding may increase the size of this
@@ -444,7 +445,7 @@ public final class Packet {
      */
     public int getSize(Client client) {
         Cipher encryptionCipher;
-        
+
         if (client == null || (encryptionCipher = client.getEncryptionCipher()) == null) {
             return size;
         }
@@ -452,9 +453,9 @@ public final class Packet {
         if (!client.isEncryptionNoPadding()) {
             int blockSize = encryptionCipher.getBlockSize();
             return Utility.roundUpToNextMultiple(size, blockSize == 0 ?
-                encryptionCipher.getOutputSize(size) : blockSize);
+                    encryptionCipher.getOutputSize(size) : blockSize);
         }
-        
+
         return size;
     }
 
@@ -469,3 +470,4 @@ public final class Packet {
         return queue;
     }
 }
+```

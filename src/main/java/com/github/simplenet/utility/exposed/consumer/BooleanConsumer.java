@@ -1,3 +1,4 @@
+```java
 /*
  * MIT License
  *
@@ -60,3 +61,4 @@ public interface BooleanConsumer {
         return (boolean t) -> { accept(t); after.accept(t); };
     }
 }
+```
